@@ -51,18 +51,34 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int price = quantity * 5;
-        String priceMessage = "Total: $" + price;
-        priceMessage = priceMessage + "\nThank You!";
+        int price = calculatePrice();
+        String priceMessage = creatOrderSummary(price);
         displayMessage(priceMessage);
+
+
+    }
+
+    /**
+     * Calculates the price of the order.
+     */
+    private int calculatePrice() {
+        return quantity * 5;
+    }
+
+    private String creatOrderSummary(int price) {
+        String priceMessage = "Name: Umair Nisar";
+        priceMessage += "\nQuantity: " + quantity;
+        priceMessage += "\nTotal: $" + price;
+        priceMessage += "\nThank You!";
+        return priceMessage;
     }
 
     /**
      * This method displays the given quantity value on the screen.
      */
-    private void displayQuantity(int number) {
+    private void displayQuantity(int numberOfCoffees) {
         TextView quantityTextView = (TextView) findViewById(R.id.quantity_text_view);
-        quantityTextView.setText("" + number);
+        quantityTextView.setText("" + numberOfCoffees);
     }
 
     /**
