@@ -11,7 +11,9 @@ package com.example.justjava;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -51,8 +53,12 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        CheckBox WhippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean hasWhippedCream = WhippedCreamCheckBox.isChecked();
+        Log.v("MainActivity", "Has whipped cream " +  hasWhippedCream);
+
         int price = calculatePrice();
-        String priceMessage = creatOrderSummary(price);
+        String priceMessage = creatOrderSummary(price, hasWhippedCream);
         displayMessage(priceMessage);
 
 
@@ -65,8 +71,9 @@ public class MainActivity extends AppCompatActivity {
         return quantity * 5;
     }
 
-    private String creatOrderSummary(int price) {
+    private String creatOrderSummary(int price, boolean addWhippedCream) {
         String priceMessage = "Name: Umair Nisar";
+        priceMessage += "\nAdd Whipped Cream? " + addWhippedCream;
         priceMessage += "\nQuantity: " + quantity;
         priceMessage += "\nTotal: $" + price;
         priceMessage += "\nThank You!";
@@ -82,18 +89,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * This method displays the given price on the screen.
-     */
-    private void displayPrice(int number) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(NumberFormat.getCurrencyInstance().format(number));
-    }
-
-    /**
      * This method displays the given text on the screen.
      */
     private void displayMessage(String message) {
-        TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
-        priceTextView.setText(message);
+        TextView orderSummaryTextView = (TextView) findViewById(R.id.order_summary_text_view);
+       orderSummaryTextView.setText(message);
     }
 }
