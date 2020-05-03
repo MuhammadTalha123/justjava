@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the plus button is clicked.
      */
     public void increment(View view) {
+        if (quantity == 100) {
+            Toast.makeText(this, "you can not have more than 100 coffees", Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity + 1;
         displayQuantity(quantity);
     }
@@ -46,9 +51,15 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the minus button is clicked.
      */
     public void decrement(View view) {
+        if (quantity == 1) {
+            Toast.makeText(this, "you cannot have less than 1  coffee", Toast.LENGTH_SHORT).show();
+            return;
+        }
         quantity = quantity - 1;
         displayQuantity(quantity);
     }
+
+
 
     /**
      * This method is called when the order button is clicked.
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         boolean hasChocolate = chocolateCheckBox.isChecked();
         Log.v("MainActivity", "Has whipped cream " +  hasWhippedCream);
 
-        int price = calculatePrice();
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
         String priceMessage = creatOrderSummary(name, price, hasWhippedCream, hasChocolate);
         displayMessage(priceMessage);
 
@@ -73,8 +84,21 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Calculates the price of the order.
      */
-    private int calculatePrice() {
-        return quantity * 5;
+    private int calculatePrice(boolean addWhippedCream, boolean addChocolate) {
+        // price of one cup of coffee
+        int basePrice = 5 ;
+
+        //add $1 doller if the user weants whipped cream
+        if (addWhippedCream) {
+            basePrice = basePrice + 1;
+        }
+
+        //add $1 doller if the user weants chocolate
+        if (addChocolate) {
+            basePrice = basePrice + 2;
+        }
+
+        return quantity * basePrice ;
     }
 
     private String creatOrderSummary(String name, int price, boolean addWhippedCream, boolean addChocolate) {
