@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        EditText nameField = (EditText)  findViewById(R.id.name_field);
+        String name = nameField.getText().toString();
         CheckBox WhippedCreamCheckBox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         // Figure out if the user wants chocolate topping
         CheckBox chocolateCheckBox = (CheckBox) findViewById(R.id.chocolate_checkbox);
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v("MainActivity", "Has whipped cream " +  hasWhippedCream);
 
         int price = calculatePrice();
-        String priceMessage = creatOrderSummary(price, hasWhippedCream, hasChocolate);
+        String priceMessage = creatOrderSummary(name, price, hasWhippedCream, hasChocolate);
         displayMessage(priceMessage);
 
 
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
         return quantity * 5;
     }
 
-    private String creatOrderSummary(int price, boolean addWhippedCream, boolean addChocolate) {
-        String priceMessage = "Name: Umair Nisar";
+    private String creatOrderSummary(String name, int price, boolean addWhippedCream, boolean addChocolate) {
+        String priceMessage = "Name: " + name;
         priceMessage += "\nAdd Whipped Cream? " + addWhippedCream;
         priceMessage += "\nAdd chocolate? " + addChocolate;
         priceMessage += "\nQuantity: " + quantity;
